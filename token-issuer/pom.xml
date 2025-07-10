@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.wildfly.security.examples.bearer-token</groupId>
+    <artifactId>bearer-token-parent</artifactId>
+    <version>2.0.0.Alpha1-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>token-issuer</artifactId>
+  <packaging>jar</packaging>
+
+  <name>Token Issuer</name>
+  <description>Utility to issue a signed JWT token.</description>
+
+  <properties>
+    <version.exec-maven-plugin>3.5.1</version.exec-maven-plugin>
+  </properties>
+
+  <dependencies>
+    <!-- This dependency is to ensure the key-manager initialisation has run. -->
+    <dependency>
+      <groupId>org.wildfly.security.examples.bearer-token</groupId>
+      <artifactId>key-manager</artifactId>
+      <type>pom</type>
+    </dependency>
+
+    <dependency>
+      <groupId>com.nimbusds</groupId>
+      <artifactId>nimbus-jose-jwt</artifactId>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>${version.exec-maven-plugin}</version>
+        <configuration>
+          <executable>java</executable>
+          <arguments>
+            <argument>-classpath</argument>
+            <!-- automatically creates the classpath using all project dependencies,
+                 also adding the project build directory -->
+            <classpath/>
+            <argument>org.wildfly.security.example.bearertoken.issuer.TokenIssuer</argument>
+            <argument>-keystore</argument>
+            <argument>${project.basedir}/../key-manager/target/keys.keystore</argument>
+          </arguments>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>

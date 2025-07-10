@@ -13,8 +13,7 @@
   <packaging>pom</packaging>
 
   <name>Key Manager</name>
-  <!-- FIXME change it to the project's website -->
-  <url>http://www.example.com</url>
+  <description>Module to manage the keys used by the token issuer.</description>
 
   <properties>
     <version.keytool-maven-plugin>1.7</version.keytool-maven-plugin>
