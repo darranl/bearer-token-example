@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.wildfly.security.examples.bearer-token</groupId>
+    <artifactId>bearer-token-parent</artifactId>
+    <version>2.0.0.Alpha1-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>key-manager</artifactId>
+  <packaging>pom</packaging>
+
+  <name>Key Manager</name>
+  <!-- FIXME change it to the project's website -->
+  <url>http://www.example.com</url>
+
+  <properties>
+    <version.keytool-maven-plugin>1.7</version.keytool-maven-plugin>
+  </properties>
+
+  <profiles>
+    <profile>
+      <id>KeyGeneration</id>
+      <activation>
+        <file>
+          <!-- Only generate if it doesn't already exist. -->
+          <missing>${project.basedir}/target/keys.keystore</missing>
+        </file>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>keytool-maven-plugin</artifactId>
+            <version>${version.keytool-maven-plugin}</version>
+            <executions>
+              <execution>
+                <phase>process-resources</phase>
+                <id>create-key-pair</id>
+                <goals>
+                  <goal>generateKeyPair</goal>
+                </goals>
+              </execution>
+            </executions>
+            <configuration>
+              <keystore>${project.basedir}/target/keys.keystore</keystore>
+              <dname>cn=Issuer, ou=Elytron, o=WildFly, c=GB</dname>
+              <storetype>PKCS12</storetype>
+              <keypass>password</keypass>
+              <storepass>password</storepass>
+              <keyalg>rsa</keyalg>
+              <alias>issuer</alias>
+              <validity>7</validity>
+              <verbose>true</verbose>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+</project>
