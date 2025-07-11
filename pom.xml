@@ -52,6 +52,7 @@
   <modules>
     <module>key-manager</module>
     <module>token-issuer</module>
+    <module>secured-endpoint</module>
   </modules>
 
   <build>
